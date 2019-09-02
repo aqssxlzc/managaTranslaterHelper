@@ -1,10 +1,7 @@
-from PySide2.QtCore import QPoint
-
 from mainui import Ui_MainWindow
 import sys
 import os
 from PySide2 import QtCore, QtWidgets
-import time
 from PySide2.QtWidgets import*
 from PySide2.QtGui import*
 import cv2 as cv
@@ -12,11 +9,8 @@ import numpy as np
 import pytesseract
 import copy
 import youdao
-import PIL
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
-from googletrans import Translator
-import freetype
 import json
 def qt_image_to_array(img, share_memory=False):
     """ Creates a numpy array from a QImage.
@@ -59,7 +53,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         self.preButton.clicked.connect(self.move_backward)
         self.NextButton.clicked.connect(self.move_forward)
         self.saveButton.clicked.connect(self.save_page)
-        self.translater=Translator()
+
        # self.pushButton.clicked.connect(self.Pause)
 
     def trans_text_change(self):
@@ -139,10 +133,10 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         text = pytesseract.image_to_string(self.crop_img, config=config)
         stmt=text.replace("-\n","").replace("\n"," ")
         print(stmt)
-        trans_txt =self.translater.translate(stmt, dest="zh-CN").text
-        #trs_txt=youdao.translate(stmt)
-        # result_dict = json.loads(trs_txt)
-        # trans_txt= "".join([i["tgt"] for i in result_dict["translateResult"][0]])
+        #trans_txt =self.translater.translate(stmt, dest="zh-CN").text
+        trs_txt=youdao.translate(stmt)
+        result_dict = json.loads(trs_txt)
+        trans_txt= "".join([i["tgt"] for i in result_dict["translateResult"][0]])
         self.transEdit.clear()
         self.transEdit.insertPlainText(trans_txt)
 
@@ -196,8 +190,6 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         if fmt != '' and isFolder is False:
             dialog.setDefaultSuffix(fmt)
             dialog.setNameFilters([f'{fmt} (*.{fmt})'])
-
-        # SET THE STARTING DIRECTORY
         if directory != '':
             dialog.setDirectory(str(directory))
         else:
