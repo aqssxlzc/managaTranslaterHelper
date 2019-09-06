@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Mon Sep  2 23:53:59 2019
+# Created: Fri Sep  6 22:26:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -52,6 +52,12 @@ class Ui_MainWindow(object):
         self.sourceView.setObjectName("sourceView")
         self.horizontalLayout.addWidget(self.sourceView)
         self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.verticalLayout.addLayout(self.verticalLayout_5)
+        self.label = QtWidgets.QLabel(self.centralWidget)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
         self.transEdit = QtWidgets.QTextEdit(self.centralWidget)
         self.transEdit.setObjectName("transEdit")
         self.verticalLayout.addWidget(self.transEdit)
@@ -66,9 +72,10 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "MainWindow", None, -1))
+        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "宇文通翻译", None, -1))
         self.openFolder.setText(QtWidgets.QApplication.translate("MainWindow", "打开文件夹", None, -1))
         self.preButton.setText(QtWidgets.QApplication.translate("MainWindow", "上一张", None, -1))
         self.NextButton.setText(QtWidgets.QApplication.translate("MainWindow", "下一张", None, -1))
+        self.label.setText(QtWidgets.QApplication.translate("MainWindow", "输入翻译文字", None, -1))
         self.saveButton.setText(QtWidgets.QApplication.translate("MainWindow", "保存图片", None, -1))
 

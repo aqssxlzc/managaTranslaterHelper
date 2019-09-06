@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>宇文通翻译</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -63,6 +63,16 @@
            <widget class="QGraphicsView" name="sourceView"/>
           </item>
          </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>输入翻译文字</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QTextEdit" name="transEdit"/>

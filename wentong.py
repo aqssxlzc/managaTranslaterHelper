@@ -151,7 +151,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         trans_img = np.empty_like(crop_img)
         trans_img.fill(255)
         img_PIL = Image.fromarray(cv.cvtColor(trans_img, cv.COLOR_BGR2RGB))
-        font = ImageFont.truetype('C:\Windows\Fonts\YaHei Consolas Hybrid 1.12.ttf', 20)
+        font = ImageFont.truetype('YaHei Consolas Hybrid 1.12.ttf', 20)
         fillColor = (0, 0, 0)
         draw = ImageDraw.Draw(img_PIL)
         msg="\n".join(textwrap.wrap(trans_txt, int(crop_img.shape[1] / 20) - 1))
