@@ -11,6 +11,7 @@ import copy
 import youdao
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
+from background_guess import get_color
 import json
 def qt_image_to_array(img, share_memory=False):
     """ Creates a numpy array from a QImage.
@@ -57,7 +58,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
        # self.pushButton.clicked.connect(self.Pause)
 
     def trans_text_change(self):
-        qImg = self.get_trans_image(self.crop_img,  self.transEdit.toPlainText())
+        qImg = self.get_trans_image(self.crop_img,  self.transEdit.toPlainText(),self.bgcolor)
 
         [self.pageView.scene().removeItem(i) for i in self.pageView.scene().items() if i.pos()==self.pageView.scene().originCropPoint.toPoint()]
         item = self.pageView.scene().addPixmap(QPixmap(qImg))
@@ -131,26 +132,33 @@ class MainWindow(QMainWindow,Ui_MainWindow):
 
         config = ("-l eng")
         text = pytesseract.image_to_string(self.crop_img, config=config)
+        data = pytesseract.image_to_data(self.crop_img,config=config, output_type=pytesseract.Output.DICT)
+
+        self.bgcolor= get_color(self.crop_img,data)
+        #self.bgcolor = np.ndarray([255,255,255,255])
         stmt=text.replace("-\n","").replace("\n"," ")
         print(stmt)
-        #trans_txt =self.translater.translate(stmt, dest="zh-CN").text
-        trs_txt=youdao.translate(stmt)
-        result_dict = json.loads(trs_txt)
-        trans_txt= "".join([i["tgt"] for i in result_dict["translateResult"][0]])
+        if stmt!="":
+            #trans_txt =self.translater.translate(stmt, dest="zh-CN").text
+            trs_txt=youdao.translate(stmt)
+            result_dict = json.loads(trs_txt)
+            trans_txt = "".join([i["tgt"] for i in result_dict["translateResult"][0]])
+        else:
+            trans_txt=""
+
         self.transEdit.clear()
         self.transEdit.insertPlainText(trans_txt)
 
-        qImg = self.get_trans_image(self.crop_img, trans_txt)
+        qImg = self.get_trans_image(self.crop_img, trans_txt,self.bgcolor)
         target_scene= QGraphicsScene()
         target_scene.addPixmap(QPixmap(qImg))
         self.targetView.setScene(target_scene)
         item = self.pageView.scene().addPixmap(QPixmap(qImg))
         item.setPos(self.pageView.scene().originCropPoint.toPoint())
 
-    def get_trans_image(self, crop_img, trans_txt):
-        trans_img = np.empty_like(crop_img)
-        trans_img.fill(255)
-        img_PIL = Image.fromarray(cv.cvtColor(trans_img, cv.COLOR_BGR2RGB))
+    def get_trans_image(self, crop_img, trans_txt,bgcolor):
+        trans_img=np.tile(bgcolor,(crop_img.shape[0],crop_img.shape[1],1))
+        img_PIL = Image.fromarray(trans_img)
         font = ImageFont.truetype('YaHei Consolas Hybrid 1.12.ttf', 20)
         fillColor = (0, 0, 0)
         draw = ImageDraw.Draw(img_PIL)
@@ -166,7 +174,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         img_OpenCV = cv.cvtColor(np.asarray(img_PIL), cv.COLOR_RGB2BGR)
         height, width, channel = img_OpenCV.shape
         bytesPerLine = 3 * width
-        qImg = QImage(img_OpenCV.data, width, height, bytesPerLine, QImage.Format_RGB888).rgbSwapped()
+        qImg = QImage(img_OpenCV.data, width, height, bytesPerLine, QImage.Format_RGB888)
         return qImg
 
     def FileDialog(self,directory='', forOpen=True, fmt='', isFolder=False):
@@ -203,6 +211,12 @@ class MainWindow(QMainWindow,Ui_MainWindow):
 
 
 if __name__ == "__main__":
+    sys._excepthook = sys.excepthook
+    def exception_hook(exctype, value, traceback):
+        print(exctype, value, traceback)
+        sys._excepthook(exctype, value, traceback)
+        sys.exit(1)
+    sys.excepthook = exception_hook
     app = QtWidgets.QApplication(sys.argv)
     widget = MainWindow()
     widget.show()
