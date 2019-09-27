@@ -6,6 +6,7 @@ from PySide2.QtWidgets import*
 from PySide2.QtGui import*
 import cv2 as cv
 import numpy as np
+import traceback as tb
 import pytesseract
 import copy
 import youdao
@@ -132,6 +133,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
 
         config = ("-l eng")
         text = pytesseract.image_to_string(self.crop_img, config=config)
+
         data = pytesseract.image_to_data(self.crop_img,config=config, output_type=pytesseract.Output.DICT)
 
         self.bgcolor= get_color(self.crop_img,data)
@@ -157,18 +159,25 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         item.setPos(self.pageView.scene().originCropPoint.toPoint())
 
     def get_trans_image(self, crop_img, trans_txt,bgcolor):
+        print(crop_img)
+        print(bgcolor)
+        print(trans_txt)
         trans_img=np.tile(bgcolor,(crop_img.shape[0],crop_img.shape[1],1))
-        img_PIL = Image.fromarray(trans_img)
-        font = ImageFont.truetype('YaHei Consolas Hybrid 1.12.ttf', 20)
-        fillColor = (0, 0, 0)
-        draw = ImageDraw.Draw(img_PIL)
-        msg="\n".join(textwrap.wrap(trans_txt, int(crop_img.shape[1] / 20) - 1))
-        w, h = draw.textsize(msg,font=font)
-        img_h,img_w,img_d = crop_img.shape
-        position = ((img_w-w)/2, (img_h-h)/2)
-        draw.text(position,msg,font=font,align='center', fill=fillColor)
-        qImg = self.cv_img_to_Qimg(img_PIL)
-        return qImg
+        if(trans_txt!=''):
+            img_PIL = Image.fromarray(trans_img)
+            font = ImageFont.truetype('YaHei Consolas Hybrid 1.12.ttf', 20)
+            fillColor = (0, 0, 0)
+            draw = ImageDraw.Draw(img_PIL)
+            msg="\n".join(textwrap.wrap(trans_txt, int(crop_img.shape[1] / 20) - 1))
+            w, h = draw.textsize(msg,font=font)
+            img_h,img_w,img_d = crop_img.shape
+            position = ((img_w-w)/2, (img_h-h)/2)
+            draw.text(position,msg,font=font,align='center', fill=fillColor)
+            qImg = self.cv_img_to_Qimg(img_PIL)
+            return qImg
+        else:
+            qImg = self.cv_img_to_Qimg(trans_img)
+            return qImg
 
     def cv_img_to_Qimg(self, img_PIL):
         img_OpenCV = cv.cvtColor(np.asarray(img_PIL), cv.COLOR_RGB2BGR)
@@ -209,14 +218,12 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         else:
             return ''
 
+def except_hook(cls, exception, traceback):
+    tb.print_tb(traceback)
+    sys.__excepthook__(cls, exception, traceback)
 
 if __name__ == "__main__":
-    sys._excepthook = sys.excepthook
-    def exception_hook(exctype, value, traceback):
-        print(exctype, value, traceback)
-        sys._excepthook(exctype, value, traceback)
-        sys.exit(1)
-    sys.excepthook = exception_hook
+    sys.excepthook = except_hook
     app = QtWidgets.QApplication(sys.argv)
     widget = MainWindow()
     widget.show()
