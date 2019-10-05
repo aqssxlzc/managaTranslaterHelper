@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Fri Sep  6 22:26:48 2019
+# Created: Sun Sep 29 20:44:28 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -69,6 +69,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
+        QtCore.QObject.connect(self.pageView, QtCore.SIGNAL("rubberBandChanged(QRect,QPointF,QPointF)"), MainWindow.updateCurrentSelect)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

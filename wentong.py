@@ -57,7 +57,8 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         self.saveButton.clicked.connect(self.save_page)
 
        # self.pushButton.clicked.connect(self.Pause)
-
+    def updateCurrentSelect(self,r,f,f2):
+        print(self)
     def trans_text_change(self):
         qImg = self.get_trans_image(self.crop_img,  self.transEdit.toPlainText(),self.bgcolor)
 
@@ -121,6 +122,8 @@ class MainWindow(QMainWindow,Ui_MainWindow):
 
     def mouseUpInScene(self,event):
         self.pageView.scene().currentQRubberBand.hide()
+        return
+
         currentQRect =  self.pageView.scene().currentQRubberBand.geometry()
 
         self.currentQRect = QtCore.QRect( self.pageView.scene().originCropPoint.toPoint(), event.scenePos().toPoint())

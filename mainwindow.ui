@@ -93,5 +93,25 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pageView</sender>
+   <signal>rubberBandChanged(QRect,QPointF,QPointF)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateCurrentSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>397</x>
+     <y>287</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>524</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>updateCurrentSelect()</slot>
+ </slots>
 </ui>
