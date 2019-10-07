@@ -128,7 +128,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
 
     def mouseUpInScene(self,event):
         self.pageView.scene().currentQRubberBand.hide()
-        return
+
 
         currentQRect =  self.pageView.scene().currentQRubberBand.geometry()
 
@@ -168,9 +168,8 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         item.setPos(self.pageView.scene().originCropPoint.toPoint())
 
     def get_trans_image(self, crop_img, trans_txt,bgcolor):
-        print(crop_img)
-        print(bgcolor)
-        print(trans_txt)
+        if(trans_txt==""):
+            return
         trans_img=np.tile(bgcolor,(crop_img.shape[0],crop_img.shape[1],1))
         if(trans_txt!=''):
             img_PIL = Image.fromarray(trans_img)
@@ -189,7 +188,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
             return qImg
 
     def cv_img_to_Qimg(self, img_PIL):
-        img_OpenCV = cv.cvtColor(np.asarray(img_PIL), cv.COLOR_RGB2BGR)
+        img_OpenCV = cv.cvtColor(np.asarray(img_PIL), cv.COLOR_RGB2BGR)#this may error
         height, width, channel = img_OpenCV.shape
         bytesPerLine = 3 * width
         qImg = QImage(img_OpenCV.data, width, height, bytesPerLine, QImage.Format_RGB888)
