@@ -52,13 +52,24 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         self.setupUi(self)
         self.openFolder.clicked.connect(self.magic)
         self.transEdit.textChanged.connect(self.trans_text_change)
-        self.preButton.clicked.connect(self.move_backward)
-        self.NextButton.clicked.connect(self.move_forward)
+
         self.saveButton.clicked.connect(self.save_page)
 
        # self.pushButton.clicked.connect(self.Pause)
     def updateCurrentSelect(self,r,f,f2):
-        print(self)
+        print(r)
+
+    def saveImage(self, r):
+        print(r)
+
+    def nextImage(self):
+        if self.work_index + 1 < len(self.file_list):
+            self.work_file_by_index(self.work_index + 1)
+
+    def previousImage(self):
+        if self.work_index - 1 >= 0:
+            self.work_file_by_index(self.work_index - 1)
+
     def trans_text_change(self):
         qImg = self.get_trans_image(self.crop_img,  self.transEdit.toPlainText(),self.bgcolor)
 
@@ -88,13 +99,8 @@ class MainWindow(QMainWindow,Ui_MainWindow):
            if(len( self.file_list)>0):
                self.work_file_by_index(0)
 
-    def move_forward(self):
-        if self.work_index+1<len( self.file_list):
-            self.work_file_by_index(self.work_index+1)
 
-    def move_backward(self):
-        if self.work_index - 1 >= 0:
-            self.work_file_by_index(self.work_index - 1)
+
 
     def work_file_by_index(self,index):
         print("move to index "+str(index))

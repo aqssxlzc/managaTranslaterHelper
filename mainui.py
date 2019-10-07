@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'mainwindow.ui',
 # licensing of 'mainwindow.ui' applies.
 #
-# Created: Sun Sep 29 20:44:28 2019
+# Created: Sat Oct  5 19:58:40 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1030, 685)
+        MainWindow.resize(1071, 749)
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.centralWidget)
@@ -70,6 +70,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.pageView, QtCore.SIGNAL("rubberBandChanged(QRect,QPointF,QPointF)"), MainWindow.updateCurrentSelect)
+        QtCore.QObject.connect(self.saveButton, QtCore.SIGNAL("clicked()"), MainWindow.saveImage)
+        QtCore.QObject.connect(self.NextButton, QtCore.SIGNAL("clicked()"), MainWindow.nextImage)
+        QtCore.QObject.connect(self.preButton, QtCore.SIGNAL("clicked()"), MainWindow.previousImage)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

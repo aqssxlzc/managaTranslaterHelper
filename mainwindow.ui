@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1030</width>
-    <height>685</height>
+    <width>1071</width>
+    <height>749</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -110,8 +110,59 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>saveButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>745</x>
+     <y>737</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>658</x>
+     <y>680</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>NextButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>nextImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>732</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>467</x>
+     <y>748</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>preButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>previousImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>243</x>
+     <y>727</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>745</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>updateCurrentSelect()</slot>
+  <slot>saveImage()</slot>
+  <slot>nextImage()</slot>
+  <slot>previousImage()</slot>
  </slots>
 </ui>
