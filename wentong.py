@@ -188,6 +188,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
             return qImg
 
     def cv_img_to_Qimg(self, img_PIL):
+        print(img_PIL)
         img_OpenCV = cv.cvtColor(np.asarray(img_PIL), cv.COLOR_RGB2BGR)#this may error
         height, width, channel = img_OpenCV.shape
         bytesPerLine = 3 * width
