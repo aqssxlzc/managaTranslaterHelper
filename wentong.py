@@ -1,6 +1,7 @@
 from mainui import Ui_MainWindow
 import sys
 import os
+import zipfile
 from PySide2 import QtCore, QtWidgets
 from PySide2.QtWidgets import*
 from PySide2.QtGui import*
