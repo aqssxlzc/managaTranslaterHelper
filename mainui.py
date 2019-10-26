@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "宇文通翻译", None, -1))
+        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "宇文通漫画翻译", None, -1))
         self.openFolder.setText(QtWidgets.QApplication.translate("MainWindow", "打开文件夹", None, -1))
         self.preButton.setText(QtWidgets.QApplication.translate("MainWindow", "上一张", None, -1))
         self.NextButton.setText(QtWidgets.QApplication.translate("MainWindow", "下一张", None, -1))

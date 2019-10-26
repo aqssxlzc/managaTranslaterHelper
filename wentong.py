@@ -77,9 +77,11 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         [self.pageView.scene().removeItem(i) for i in self.pageView.scene().items() if i.pos()==self.pageView.scene().originCropPoint.toPoint()]
         item = self.pageView.scene().addPixmap(QPixmap(qImg))
         item.setPos(self.pageView.scene().originCropPoint.toPoint())
-        target_scene = QGraphicsScene()
+        if(self.targetView.getScene()== None):
+            self.targetView.setScene(QGraphicsScene())
+        target_scene = self.targetView.getScene()
         target_scene.addPixmap(QPixmap(qImg))
-        self.targetView.setScene(target_scene)
+
 
     def save_page(self):
         if not (os.path.exists(self.file_path+"/translation/")) :
