@@ -110,6 +110,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         filepath = self.file_path + "/" + self.file_list[index]
         self.picture = QPixmap(filepath)
         scene = QGraphicsScene()
+        self.viewScene = scene
         item = scene.addPixmap(self.picture)
         scene.mouseMoveEvent = self.mouseMove
         scene.mousePressEvent = self.mouseDownInScene
@@ -120,24 +121,24 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         self.work_index=index
 
     def mouseMove(self,event):
-        self.pageView.scene().currentQRubberBand.setGeometry(QtCore.QRect( self.pageView.scene().originQPoint, event.screenPos()))
-        self.pageView.scene().currentQRubberBand.show()
+        self.viewScene.currentQRubberBand.setGeometry(QtCore.QRect( self.viewScene.originQPoint, event.screenPos()))
+        self.viewScene.currentQRubberBand.show()
 
     def mouseDownInScene(self,event):
-        self.pageView.scene().originQPoint = event.screenPos()
-        self.pageView.scene().currentQRubberBand = QtWidgets.QRubberBand(QtWidgets.QRubberBand.Rectangle)
-        self.pageView.scene().originCropPoint = event.scenePos()
+        self.viewScene.originQPoint = event.screenPos()
+        self.viewScene.currentQRubberBand = QtWidgets.QRubberBand(QtWidgets.QRubberBand.Rectangle)
+        self.viewScene.originCropPoint = event.scenePos()
 
 
     def mouseUpInScene(self,event):
-        self.pageView.scene().currentQRubberBand.hide()
+        self.viewScene.currentQRubberBand.hide()
 
 
-        currentQRect =  self.pageView.scene().currentQRubberBand.geometry()
+        currentQRect =  self.viewScene.currentQRubberBand.geometry()
 
-        self.currentQRect = QtCore.QRect( self.pageView.scene().originCropPoint.toPoint(), event.scenePos().toPoint())
+        self.currentQRect = QtCore.QRect( self.viewScene.originCropPoint.toPoint(), event.scenePos().toPoint())
 
-        self.crop_img = self.cv_img[int(self.pageView.scene().originCropPoint.y()): int(event.scenePos().y()), int(self.pageView.scene().originCropPoint.toPoint().x()): int(event.scenePos().x())]
+        self.crop_img = self.cv_img[int(self.viewScene.originCropPoint.y()): int(event.scenePos().y()), int(self.viewScene.originCropPoint.toPoint().x()): int(event.scenePos().x())]
         q_crop_img = self.cv_img_to_Qimg(self.crop_img)
         crop_scene = QGraphicsScene()
         crop_scene.addPixmap(QPixmap(q_crop_img))
