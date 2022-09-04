@@ -77,9 +77,9 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         [self.pageView.scene().removeItem(i) for i in self.pageView.scene().items() if i.pos()==self.pageView.scene().originCropPoint.toPoint()]
         item = self.pageView.scene().addPixmap(QPixmap(qImg))
         item.setPos(self.pageView.scene().originCropPoint.toPoint())
-        if(self.targetView.getScene()== None):
+        if(self.targetView.scene()== None):
             self.targetView.setScene(QGraphicsScene())
-        target_scene = self.targetView.getScene()
+        target_scene = self.targetView.scene()
         target_scene.addPixmap(QPixmap(qImg))
 
 
@@ -95,7 +95,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
 
 
     def magic(self):
-       filepath=self.FileDialog("F:\迅雷下载\[Jamming] It Ejaculates in the Teacher [English] [Brolen] [Decensored]",isFolder=True)
+       filepath=self.FileDialog("/home/chen/[BORN-TO-DIE] CHIBIUSA'S WOMANHOOD ADVENTURE (Bishoujo Senshi Sailor Moon) [Decensored]",isFolder=True)
        if os.path.isdir(filepath):
            self.file_path = filepath
            self.file_list =[file for file in os.listdir(filepath) if file.endswith(".jpg") or file.endswith(".png")]
@@ -176,7 +176,7 @@ class MainWindow(QMainWindow,Ui_MainWindow):
         trans_img=np.tile(bgcolor,(crop_img.shape[0],crop_img.shape[1],1))
         if(trans_txt!=''):
             img_PIL = Image.fromarray(trans_img)
-            font = ImageFont.truetype('YaHei Consolas Hybrid 1.12.ttf', 20)
+            font = ImageFont.truetype('simhei.ttf', 20)
             fillColor = (0, 0, 0)
             draw = ImageDraw.Draw(img_PIL)
             msg="\n".join(textwrap.wrap(trans_txt, int(crop_img.shape[1] / 20) - 1))
